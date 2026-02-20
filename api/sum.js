@@ -1,5 +1,14 @@
-export default function handler(req, res) {
-  const { a, b } = req.body || {};
+import { withCORS } from "./_utils.js";
+
+function sumHandler(req, res) {
+  let body = {};
+  try {
+    body = req.body ? JSON.parse(req.body) : {};
+  } catch (e) {
+    console.error("Failed to parse body", e);
+  }
+
+  const { a, b } = body;
   const sum = (a || 0) + (b || 0);
 
   res.status(200).json({
@@ -15,3 +24,5 @@ export default function handler(req, res) {
     ]
   });
 }
+
+export default withCORS(sumHandler);
